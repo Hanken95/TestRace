@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestRace
 {
-    public enum Error
+    public enum Fault
     {
         NameMissing,
         NameHasNonLetterCharacter,
@@ -14,13 +14,18 @@ namespace TestRace
 
     public static class ValueChecker
     {
-        public static bool NameChecker(string name)
+        public static List<Fault> NameChecker(string name)
         {
+            List<Fault> faults = new List<Fault>();
             if (string.IsNullOrWhiteSpace(name))
             {
-                return false;
+                faults.Add(Fault.NameMissing);
             }
-            return name.All(char.IsLetter);
+            if (name.All(char.IsLetter))
+            {
+                faults.Add(Fault.NameHasNonLetterCharacter);
+            }
+            return faults;
         }
     }
 }
