@@ -1,8 +1,17 @@
-﻿internal class Program
+﻿using TestRace;
+
+internal class Program
 {
     private static void Main()
     {
         TimeOnly timeOnly = new(10, 10, 10);
+
+        Console.WriteLine(ValueChecker.NameChecker("Hej1san"));
+        Console.WriteLine(ValueChecker.NameChecker(""));
+        Console.WriteLine(ValueChecker.NameChecker("  "));
+        Console.WriteLine(ValueChecker.NameChecker(null));
+
+        Console.WriteLine(ValueChecker.NameChecker("Hejsan"));
 
         string line;
         try
