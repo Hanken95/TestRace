@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestRace
+﻿
+namespace TestRace.Models
 {
     public class ParticipantEntry
     {
@@ -15,6 +9,7 @@ namespace TestRace
         private TimeOnly _finishTime;
         private string _raceType;
         private string _fullEntryString;
+        private List<Fault> _faults;
 
         public  string Name
         {
@@ -52,6 +47,11 @@ namespace TestRace
             set { _fullEntryString = value; }
         }
 
+        public List<Fault> Faults
+        {
+            get { return _faults; }
+            set { _faults = value; }
+        }
 
 
     }
