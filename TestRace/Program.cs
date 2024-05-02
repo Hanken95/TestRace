@@ -7,6 +7,7 @@ internal class Program
     {
         var a = ParticipantEntry.ParticipantEntryCreator("Booba,11412,12:20:00,12:44:10,eggRace");
 
+        
 
         List<ParticipantEntry> list = new List<ParticipantEntry>();
         ParticipantEntry boobaEgg = ParticipantEntry.ParticipantEntryCreator("Booba,11412,12:20:00,12:44:10,eggRace");
@@ -19,8 +20,14 @@ internal class Program
         list.Add(ParticipantEntry.ParticipantEntryCreator("Phil,11112,12:20:00,12:47:10,sackRace"));
         list.Add(ParticipantEntry.ParticipantEntryCreator("Phil,11112,12:20:00,12:45:10,1000m"));
 
+        list.Add(ParticipantEntry.ParticipantEntryCreator(",11112,12:20:00,12:45:10,1000m"));
+        list.Add(ParticipantEntry.ParticipantEntryCreator(",11112,12:20:00,13:45:10,1000m"));
+        list.Add(ParticipantEntry.ParticipantEntryCreator("Philip,11112,12:20:00,12:45:10,1000m"));
+        list.Add(ParticipantEntry.ParticipantEntryCreator("Phil,11112,12:20:00,12:45:10,1000m"));
+
         var groupedByPartisipantsList = list.GroupBy(pe => pe.Name).ToList();
-        
+
+
         foreach (var duplicatesItem in groupedByPartisipantsList)
         {
             foreach (var item in duplicatesItem)
@@ -29,6 +36,10 @@ internal class Program
                 Console.WriteLine(item.ID);
             }
         }
+
+        var participants = RaceResultsCalculator.participants;
+
+        var winner = RaceResultsCalculator.CalculateWinner();
 
         var b = new TimeSpan(10, 10, 0) + new TimeSpan(10, 10, 10);
 

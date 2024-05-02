@@ -41,17 +41,85 @@ namespace TestRace.Models
 		{
 			get 
 			{
-                if (ParticipantEntries.Count > 1)
+                if (ParticipantEntries.Count < 1)
                 {
 					return null;
                 }
 
 				TimeSpan? combinedRaceTime = TimeSpan.Zero;
 
-				foreach (var entry in ParticipantEntries )
-				{
-					combinedRaceTime += entry.RaceTime;
-				}
+                if (ParticipantEntries.Count(pe => pe.RaceType == "1000m") > 1 || 
+					ParticipantEntries.Count(pe => pe.RaceType == "eggRace") > 1 ||
+					ParticipantEntries.Count(pe => pe.RaceType == "sackRace") > 1 )
+                {
+                    if (ParticipantEntries.Count(pe => pe.RaceType == "1000m") > 1)
+                    {
+						TimeSpan? lowest1000MTime = TimeSpan.MaxValue;
+						foreach (var entry in ParticipantEntries.Where(pe => pe.RaceType == "1000m"))
+						{
+                            if (entry.RaceTime < lowest1000MTime)
+                            {
+								lowest1000MTime = entry.RaceTime;
+                            }
+                        }
+                        combinedRaceTime += lowest1000MTime;
+                    }
+					else
+                    {
+						foreach (var entry in ParticipantEntries.Where(pe => pe.RaceType == "1000m"))
+						{
+                            combinedRaceTime += entry.RaceTime;
+                        }
+                    }
+                    if (ParticipantEntries.Count(pe => pe.RaceType == "eggRace") > 1)
+					{
+                        TimeSpan? lowestEggRaceTime = TimeSpan.MaxValue;
+                        foreach (var entry in ParticipantEntries.Where(pe => pe.RaceType == "eggRace"))
+                        {
+                            if (entry.RaceTime < lowestEggRaceTime)
+                            {
+                                lowestEggRaceTime = entry.RaceTime;
+                            }
+                        }
+                        combinedRaceTime += lowestEggRaceTime;
+                    }
+                    else
+                    {
+                        foreach (var entry in ParticipantEntries.Where(pe => pe.RaceType == "eggRace"))
+                        {
+                            combinedRaceTime += entry.RaceTime;
+                        }
+                    }
+                    if (ParticipantEntries.Count(pe => pe.RaceType == "sackRace") > 1)
+					{
+                        TimeSpan? lowestSackRaceTime = TimeSpan.MaxValue;
+                        foreach (var entry in ParticipantEntries.Where(pe => pe.RaceType == "sackRace"))
+                        {
+                            if (entry.RaceTime < lowestSackRaceTime)
+                            {
+                                lowestSackRaceTime = entry.RaceTime;
+                            }
+                        }
+                        combinedRaceTime += lowestSackRaceTime;
+                    }
+                    else
+                    {
+                        foreach (var entry in ParticipantEntries.Where(pe => pe.RaceType == "sackRace"))
+                        {
+                            combinedRaceTime += entry.RaceTime;
+                        }
+                    }
+                }
+                else
+                { 
+                    foreach (var entry in ParticipantEntries )
+				    {
+                        if (entry.RaceType == "1000m" || entry.RaceType == "eggRace" || entry.RaceType == "sackRace")
+                        {
+                            combinedRaceTime += entry.RaceTime;
+                        }
+				    }
+                }
 
                 return combinedRaceTime;
             }
@@ -64,9 +132,9 @@ namespace TestRace.Models
 		{
 			get 
 			{
-                if (ParticipantEntries.Any(participantEntry => participantEntry.RaceType == "1000m" && participantEntry.RaceTime != null) &&
-                    ParticipantEntries.Any(participantEntry => participantEntry.RaceType == "eggRace" && participantEntry.RaceTime != null) &&
-                    ParticipantEntries.Any(participantEntry => participantEntry.RaceType == "sackRace" && participantEntry.RaceTime != null)&&
+                if (ParticipantEntries.Any(pe => pe.RaceType == "1000m" && pe.RaceTime != null) &&
+                    ParticipantEntries.Any(pe => pe.RaceType == "eggRace" && pe.RaceTime != null) &&
+                    ParticipantEntries.Any(pr => pr.RaceType == "sackRace" && pr.RaceTime != null)&&
 					Name != null && ID != null)
                 {
 					return true;
@@ -75,6 +143,16 @@ namespace TestRace.Models
 			}
 		}
 
+		public List<Fault> EntryFaults
+		{
+			get
+			{
+                return (from entry in ParticipantEntries
+                        from fault in entry.Faults
+                        select fault).ToList();
+			}
+
+		}
 
 		public static Participant ParticipantCreator(string? name, int? id, List<ParticipantEntry> participantEntries)
 		{
@@ -92,16 +170,45 @@ namespace TestRace.Models
 			{
                 participantEntries.Add(ParticipantEntry.ParticipantEntryCreator(entry));
 			}
-            var groupedByPartisipantsList = participantEntries.GroupBy(pe => pe.Name).ToList();
 
-            foreach (var group in groupedByPartisipantsList)
+            var groupedByParticipantsList = participantEntries.GroupBy(pe => pe.Name).ToList();
+
+            foreach (var group in groupedByParticipantsList)
             {
                 List <ParticipantEntry> thisParticipantsEntries = new List<ParticipantEntry>();
                 foreach (var participantEntry in group)
                 {
-					thisParticipantsEntries.Add(participantEntry);
+                    if (participantEntry.Name != null)
+                    {
+                        if (participants.Any(p => p.Name == participantEntry.Name))
+                        {
+                            participants.Find(p => p.Name == participantEntry.Name).ParticipantEntries.Add(participantEntry);
+                        }
+						else
+						{
+							thisParticipantsEntries.Add(participantEntry); 
+						}
+                    }
+					else if (participantEntry.ID != null)
+					{
+                        if (participants.Any(p => p.ID == participantEntry.ID))
+                        {
+                            participants.Find(p => p.ID == participantEntry.ID).ParticipantEntries.Add(participantEntry);
+                        }
+                        else
+                        {
+                            thisParticipantsEntries.Add(participantEntry);
+                        }
+                    }
+					else
+					{
+						thisParticipantsEntries.Add(participantEntry);
+					}
                 }
-                var pa = new Participant(group.Key, group.First().ID, thisParticipantsEntries);
+				if (thisParticipantsEntries.Count > 0)
+				{
+					participants.Add(new Participant(group.First().Name, group.First().ID, thisParticipantsEntries));
+				}
                 
             }
 
