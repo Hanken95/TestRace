@@ -1,0 +1,43 @@
+program flow:
+Choose file?
+-
+Check file type?
+-
+Read file
+-
+Separate each entry
+-
+Separade the values in each entry
+-
+Create an object(entry) and set the fields of the object to the values
+	During the creation of an object the values are tested
+		If there is at least one entry that is incorrect then the object will be marked as faulty
+		The specific fault will be recorded in the object
+-
+Create a list with all the entries(that are objects now)
+-
+Creat a list with only valid entries
+-
+Caldu
+
+
+
+When an entry fails a check then it gets a fault object added to its faults. 
+A entry can have several faults which can be accessed by the user.
+One of the faults can be that 2 entries are on the same line in the input file
+One of the faults can be that the finishTime is before the startTime
+
+If the ID/name is wrong the program can search for an entry with the same name/ID and correct the faulty value.
+
+
+Some faults can be fixed by the program?
+
+If there is a correct start time and finish time input the program can check  if the time between these 2 are 
+reasonable and give an error if cheating(misinput) is suspected? 
+The minimun time required for a timespan to be valid can be configured by the user?
+
+Expand on RaceTypeChecker? Where it can give suggestions if the value is close
+
+Implement a method to clear faults when the associated value has been corrected?
+
+Time Faults
