@@ -8,7 +8,29 @@ internal class Program
         var a = ParticipantEntry.ParticipantEntryCreator("Booba,11412,12:20:00,12:44:10,eggRace");
 
 
+        List<ParticipantEntry> list = new List<ParticipantEntry>();
+        ParticipantEntry boobaEgg = ParticipantEntry.ParticipantEntryCreator("Booba,11412,12:20:00,12:44:10,eggRace");
+        list.Add(boobaEgg);
+        ParticipantEntry boobaSack = ParticipantEntry.ParticipantEntryCreator("Booba,11412,12:20:00,12:30:10,sackRace");
+        list.Add(boobaSack);
+        ParticipantEntry booba1000m = ParticipantEntry.ParticipantEntryCreator("Booba,11412,12:20:00,12:39:10,1000m");
+        list.Add(booba1000m);
+        list.Add(ParticipantEntry.ParticipantEntryCreator("Phil,11112,12:20:00,12:48:10,eggRace"));
+        list.Add(ParticipantEntry.ParticipantEntryCreator("Phil,11112,12:20:00,12:47:10,sackRace"));
+        list.Add(ParticipantEntry.ParticipantEntryCreator("Phil,11112,12:20:00,12:45:10,1000m"));
 
+        var groupedByPartisipantsList = list.GroupBy(pe => pe.Name).ToList();
+        
+        foreach (var duplicatesItem in groupedByPartisipantsList)
+        {
+            foreach (var item in duplicatesItem)
+            {
+                Console.WriteLine(item.Name);
+                Console.WriteLine(item.ID);
+            }
+        }
+
+        var b = new TimeSpan(10, 10, 0) + new TimeSpan(10, 10, 10);
 
 
 
@@ -63,37 +85,6 @@ internal class Program
 
 
 
-        string line;
-        //try
-        //{
-        //    //Pass the file path and file name to the StreamReader constructor
-        //    StreamReader sr = new("C:\\Users\\Luna\\Desktop\\race-results.txt");
-        //    //Read the first line of text
-        //    line = sr.ReadLine();
-        //    //Continue to read until you reach end of file
-        //    Console.WriteLine(timeOnly.ToString("HH:mm:ss"));
-        //    while (line != null)
-        //    {
-        //        //write the line to console window
-        //        Console.WriteLine(line);
-        //        string[] entryValues = line.Split(",");
-        //        if (entryValues.Length > 0)
-        //        {
-        //            foreach (string entryValue in entryValues)
-        //            {
-        //                Console.WriteLine(entryValue);
-        //            }
-        //        }
-        //        //Read the next line
-        //        line = sr.ReadLine();
-        //    }
-        //    //close the file
-        //    sr.Close();
-        //    Console.ReadLine();
-        //}
-        //catch (Exception e)
-        //{
-        //    Console.WriteLine("Exception: " + e.Message);
-        //}
+
     }
 }

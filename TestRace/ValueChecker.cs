@@ -51,7 +51,7 @@ namespace TestRace
                 faults.Add(new Fault("Name missing", "The name of the participant is missing", FaultType.MissingInput));
                 return faults;
             }
-            else if (!name.All(char.IsLetter))
+            else if (!name.All(character => character == ' ' || char.IsLetter(character)))
             {
                 faults.Add(new Fault("Nonletter in name", "There is a character other than a letter in the name", FaultType.IncorrectCharacter));
             }
@@ -98,7 +98,7 @@ namespace TestRace
             {
                 finishTimeFaults.AddRange(CheckTimeCharacters(finishTime, false));
             }
-            if (startTimeFaults.Count < 1 || finishTimeFaults.Count < 1)
+            if (startTimeFaults.Count < 1 && finishTimeFaults.Count < 1)
             {
                 var startTimeAsTimeOnly = TimeOnly.Parse(startTime);
                 var finishTimeAsTimeOnly = TimeOnly.Parse(finishTime);
