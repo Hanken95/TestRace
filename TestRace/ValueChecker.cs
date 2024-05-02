@@ -13,25 +13,37 @@ namespace TestRace
         public static List<Fault> EntireEntryChecker(string[] entry)
         {
             List<Fault> faults = new List<Fault>();
-            //if (entry.Length != 5)
-            //{
-            //    CheckLenghtOfEntryProblem(entry);
-            //    return faults;
-            //}
-            foreach (var fault in NameChecker(entry[0]))
+            if (entry.Length != 5)
             {
-                faults.Add(fault);
+                faults.AddRange(CheckLenghtOfEntryProblem(entry));
+                return faults;
             }
-            //
-            foreach (var fault in TimeChecker(entry[1], entry[2]))
+            faults.AddRange(NameChecker(entry[0]));
+            faults.AddRange(IDChecker(entry[1]));
+            faults.AddRange(TimeChecker(entry[2], entry[3]).startTimeFaults);
+            faults.AddRange(TimeChecker(entry[2], entry[3]).finishTimeFaults);
+            faults.AddRange(RaceTypeChecker(entry[4]));
+
+            return faults;
+        }
+
+        private static List<Fault> CheckLenghtOfEntryProblem(string[] entry)
+        {
+            List<Fault> faults = new List<Fault>();
+
+            if (entry.Length > 5)
             {
-                faults.Add(fault);
+                faults.Add(new Fault("More than 5 values", "There are more than 5 entry values", FaultType.IncorrectAmountOfInputs));
+            }
+            if (entry.Length < 5)
+            {
+                faults.Add(new Fault("Less than 5 values", "There are less than 5 entry values", FaultType.IncorrectAmountOfInputs));
             }
 
             return faults;
         }
 
-        public static List<Fault> NameChecker(string name)
+        public static List<Fault> NameChecker(string? name)
         {
             List<Fault> faults = new List<Fault>();
             if (string.IsNullOrWhiteSpace(name))
@@ -61,53 +73,46 @@ namespace TestRace
             return faults;
         }
         
-        public static List<Fault> TimeChecker(string startTime, string finishTime)
+        public static (List<Fault> startTimeFaults, List<Fault> finishTimeFaults) TimeChecker(string startTime, string finishTime)
         {
-            List<Fault> faults = new List<Fault>();
+            List<Fault> startTimeFaults = new List<Fault>();
+            List<Fault> finishTimeFaults = new List<Fault>();
             if (string.IsNullOrWhiteSpace(startTime))
             {
-                faults.Add(new Fault("Start time missing", "The start time of the participant is missing", FaultType.MissingInput));
+                startTimeFaults.Add(new Fault("Start time missing", "The start time of the participant is missing", FaultType.MissingInput));
             }
             if (string.IsNullOrWhiteSpace(finishTime))
             {
-                faults.Add(new Fault("Finish time missing", "The finish time of the participant is missing", FaultType.MissingInput));
+                finishTimeFaults.Add(new Fault("Finish time missing", "The finish time of the participant is missing", FaultType.MissingInput));
             }
-            if (faults.Count > 1)
+            if (startTimeFaults.Count > 1 || finishTimeFaults.Count > 1)
             {
-                return faults;
+                return (startTimeFaults, finishTimeFaults);
             }
 
-            if (!faults.Any(fault => fault.Name == "Start time missing") && !DateOnly.TryParse(startTime, out var _))
+            if (startTimeFaults.Count < 1 && !TimeOnly.TryParse(startTime, out var _))
             {
-                var startTimeCharacterFaults = CheckTimeCharacters(startTime);
-                foreach (var fault in startTimeCharacterFaults)
-                {
-                    faults.Add(fault);
-                }
+                startTimeFaults.AddRange(CheckTimeCharacters(startTime));
             }
-            if (!faults.Any(fault => fault.Name == "Finish time missing") && !DateOnly.TryParse(finishTime, out var _))
+            if (finishTimeFaults.Count < 1 && !TimeOnly.TryParse(finishTime, out var _))
             {
-                var finishTimeCharacterFaults = CheckTimeCharacters(finishTime, false);
-                foreach (var fault in finishTimeCharacterFaults)
-                {
-                    faults.Add(fault);
-                }
+                finishTimeFaults.AddRange(CheckTimeCharacters(finishTime, false));
             }
-            if (faults.Count < 1)
+            if (startTimeFaults.Count < 1 || finishTimeFaults.Count < 1)
             {
                 var startTimeAsTimeOnly = TimeOnly.Parse(startTime);
                 var finishTimeAsTimeOnly = TimeOnly.Parse(finishTime);
                 if (startTimeAsTimeOnly.CompareTo(finishTimeAsTimeOnly) > 0)
                 {
-                    faults.Add(new Fault("Start time before finish time", "The start time is after the finish time", FaultType.TimeOrder));
+                    startTimeFaults.Add(new Fault("Start time before finish time", "The start time is after the finish time", FaultType.TimeOrder));
                 }
                 else if (startTimeAsTimeOnly.CompareTo(finishTimeAsTimeOnly) == 0)
                 {
-                    faults.Add(new Fault("Start time same as finish time", "The start time the same as the finish time", FaultType.TimeOrder));
+                    startTimeFaults.Add(new Fault("Start time same as finish time", "The start time the same as the finish time", FaultType.TimeOrder));
                 }
             }
 
-            return faults;
+            return (startTimeFaults, finishTimeFaults);
         }
 
         private static List<Fault> CheckTimeCharacters(string time, bool isStartTime = true)
@@ -165,7 +170,17 @@ namespace TestRace
 
             return faults;
         }
-      
-        // time.ToCharArray().Count(char.IsNumber)
+        
+        public static List<Fault> RaceTypeChecker(string raceType)
+        {
+            List<Fault> faults = new List<Fault>();
+
+            if (raceType != "1000m" && raceType != "eggRace" && raceType != "sackRace")
+            {
+                faults.Add(new Fault("Incorrect race type", "The race type isn't one of the accepted 3 race types", FaultType.Racetype));
+            }
+
+            return faults;
+        }
     }
 }

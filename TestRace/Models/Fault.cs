@@ -7,25 +7,17 @@ using System.Threading.Tasks;
 namespace TestRace.Models
 {
 
-    //public enum Fault
-    //{
-    //    NameMissing,
-    //    NameHasNonLetterCharacter,
-    //    IdMissing,
-    //    IdHasNonNumberCharacter,
-    //    StartTimeMissing,
-    //    FinishTimeMissing,
-    //    StartTimeHasNonNumberCharacter
-    //}
-
     public enum FaultType
     {
+        
         MissingInput,
         IncompleteInput,
         IncorrectCharacter,
         NumberOutsideRange,
         IncorrectAmountOfCharacters,
-        TimeOrder
+        TimeOrder,
+        Racetype,
+        IncorrectAmountOfInputs
     }
 
     public class Fault(string name, string message, FaultType faultType)
