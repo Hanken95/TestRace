@@ -1,4 +1,4 @@
-﻿namespace TestRace.Models
+﻿namespace Tournament.Models
 {
     public class ParticipantEntry
     {

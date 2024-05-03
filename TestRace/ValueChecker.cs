@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestRace.Models;
+using Tournament.Models;
 
-namespace TestRace
+namespace Tournament
 {
 
     public static class ValueChecker

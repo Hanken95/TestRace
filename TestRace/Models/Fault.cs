@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestRace.Models
+namespace Tournament.Models
 {
 
     public enum FaultType

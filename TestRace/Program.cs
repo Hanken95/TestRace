@@ -1,5 +1,5 @@
-﻿using TestRace;
-using TestRace.Models;
+﻿using Tournament;
+using Tournament.Models;
 
 internal class Program
 {

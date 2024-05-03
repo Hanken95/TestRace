@@ -1,6 +1,6 @@
-﻿using TestRace.Models;
+﻿using Tournament.Models;
 
-namespace TestRace
+namespace Tournament
 {
     public static class RaceResultsCalculator
     {
