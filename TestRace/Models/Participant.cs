@@ -154,12 +154,6 @@ namespace TestRace.Models
 
 		}
 
-		public static Participant ParticipantCreator(string? name, int? id, List<ParticipantEntry> participantEntries)
-		{
-			return new Participant(name, id, participantEntries);
-
-        }
-
 		public static List<Participant> ParticipantListCreator(List<string> entries)
 		{
 			List<Participant> participants = new List<Participant>();
@@ -218,11 +212,11 @@ namespace TestRace.Models
                     int? id = null;
                     foreach (var entry in thisParticipantsEntries)
                     {
-                        if (name != null && entry.Name != null)
+                        if (name == null && entry.Name != null)
                         {
                             name = entry.Name;
                         }
-                        if (id != null && entry.ID != null)
+                        if (id == null && entry.ID != null)
                         {
                             id = entry.ID;
                         }
