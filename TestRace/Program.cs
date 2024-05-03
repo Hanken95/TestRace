@@ -37,14 +37,36 @@ internal class Program
             }
         }
 
-        var participants = RaceResultsCalculator.participants;
+        //var participants = RaceResultsCalculator.participants;
 
-        var winner = RaceResultsCalculator.CalculateWinner();
+        //var winner = RaceResultsCalculator.CalculateWinner();
 
         var b = new TimeSpan(10, 10, 0) + new TimeSpan(10, 10, 10);
 
 
+        var entries = new List<string>
+            {
+                "Bob henry,100239,10:20:50,10:25:50,1000m",
+                "Bob henry,100239,10:20:50,10:25:50,eggRace",
+                "Bob henry,100239,10:20:50,10:25:50,sackRace",
+                "Bob henry,100239,10:20:50,10:24:50,sackRace",
+                "Lena henry,200239,10:20:50,10:25:50,1000m",
+                "Lena henry,200239,10:20:50,10:25:50,eggRace",
+                "Lena henry,200239,10:20:50,10:25:50,sackRace",
+                "Lena henry,200239,10:20s:50,10:24:50,hackRace",
+                "Felix Bromph,3002i39,10:20:50,10:25:50,1000m",
+                "Felix Bromph, ,10:20:50,10:25:50,sackRace",
+                "Fel5ix Bromph,300239,10:20:50,10:25:50,sackRace",
+                "Felix Br0mph,300239,10:20:50,10:25:50,eggRace",
+                "Fel5ix Bromph,30z0239,10:20:50,10:25:50,sackRace",
+                "Felix Br0mph,,10:20s:50,10:2a4:50,sackRace",
+            };
 
+        var participants = Participant.ParticipantListCreator(entries);
+
+        var winner = RaceResultsCalculator.CalculateWinner(participants);
+
+        var baw = 1;
 
         //TimeOnly timeOnly1 = new(10, 10, 10);
         //TimeOnly timeOnly2 = new(10, 20, 15);

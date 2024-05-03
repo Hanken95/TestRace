@@ -12,6 +12,29 @@ namespace Tournament.Models
 		private int? _id;
 		private List<ParticipantEntry> _participantEntries;
 
+        public Participant(List<ParticipantEntry> participantEntries)
+
+		{
+            _name = null;
+            foreach (var participantEntry in participantEntries)
+            {
+                if (participantEntry.Name != null)
+                {
+                    _name = participantEntry.Name;
+                    break;
+                }
+            }
+            _id = null;
+            foreach (var participantEntry in participantEntries)
+            {
+                if (participantEntry.ID != null)
+                {
+                    _id = participantEntry.ID;
+                    break;
+                }
+            }
+            _participantEntries = participantEntries;
+		}
         private Participant(string? name, int? id, List<ParticipantEntry> participantEntries)
 		{
 			_name = name;
@@ -170,13 +193,19 @@ namespace Tournament.Models
             foreach (var group in groupedByParticipantsList)
             {
                 List <ParticipantEntry> thisParticipantsEntries = new List<ParticipantEntry>();
-                foreach (var participantEntry in group)
+                var sortedGroup = group.OrderByDescending(pe => pe.ID);
+                foreach (var participantEntry in sortedGroup)
                 {
                     if (participantEntry.Name != null)
                     {
                         if (participants.Any(p => p.Name == participantEntry.Name))
                         {
-                            participants.Find(p => p.Name == participantEntry.Name).ParticipantEntries.Add(participantEntry);
+                            Participant participant = participants.Find(p => p.Name == participantEntry.Name);
+                            participant.ParticipantEntries.Add(participantEntry);
+                            if (participant.ID == null  && participantEntry.ID != null)
+                            {
+                                participant.ID = participantEntry.ID;
+                            }
                         }
 						else
 						{
@@ -187,7 +216,12 @@ namespace Tournament.Models
 					{
                         if (participants.Any(p => p.ID == participantEntry.ID))
                         {
-                            participants.Find(p => p.ID == participantEntry.ID).ParticipantEntries.Add(participantEntry);
+                            Participant participant = participants.Find(p => p.ID == participantEntry.ID);
+                            participant.ParticipantEntries.Add(participantEntry);
+                            if (participant.Name == null && participantEntry.Name != null)
+                            {
+                                participant.Name = participantEntry.Name;
+                            }
                         }
                         else
                         {
@@ -199,6 +233,10 @@ namespace Tournament.Models
                         if (participants.Any(p => p.Name == null && p.ID == null))
                         {
                             participants.Find((p => p.Name == null && p.ID == null)).ParticipantEntries.Add(participantEntry);
+                        }
+                        else if (thisParticipantsEntries.Any(p => p.ID != null))
+                        {
+                            participants.Add(new Participant([participantEntry]));
                         }
                         else
                         {
