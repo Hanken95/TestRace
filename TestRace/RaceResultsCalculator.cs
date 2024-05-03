@@ -4,7 +4,7 @@ namespace Tournament
 {
     public static class RaceResultsCalculator
     {
-        public static List<Participant> participants = Participant.ParticipantListCreator(FileReader.ReadFile());
+        public static List<Participant> participants = Participant.ParticipantListCreator(FileReader.ReadFileInFilesFolder());
 
         public static List<Participant> winnableParticipants
         {

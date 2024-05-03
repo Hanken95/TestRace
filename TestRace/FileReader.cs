@@ -13,11 +13,10 @@ namespace Tournament
         {
             return File.ReadAllLines(path).ToList();
         }
-        public static List<string> ReadFile()
+        public static List<string> ReadFileInFilesFolder(string fileName = "race-results")
         {
-            var path = @"..\..\..\Files\race-results.txt";
+            var path = @$"..\..\..\Files\{fileName}.txt";
             return File.ReadAllLines(path).ToList();
-            
         }
 
     }
