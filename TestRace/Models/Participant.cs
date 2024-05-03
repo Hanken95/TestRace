@@ -202,12 +202,37 @@ namespace TestRace.Models
                     }
 					else
 					{
-						thisParticipantsEntries.Add(participantEntry);
-					}
+                        if (participants.Any(p => p.Name == null && p.ID == null))
+                        {
+                            participants.Find((p => p.Name == null && p.ID == null)).ParticipantEntries.Add(participantEntry);
+                        }
+                        else
+                        {
+                            thisParticipantsEntries.Add(participantEntry);
+                        }
+                    }
                 }
 				if (thisParticipantsEntries.Count > 0)
 				{
-					participants.Add(new Participant(group.First().Name, group.First().ID, thisParticipantsEntries));
+                    string? name = null;
+                    int? id = null;
+                    foreach (var entry in thisParticipantsEntries)
+                    {
+                        if (name != null && entry.Name != null)
+                        {
+                            name = entry.Name;
+                        }
+                        if (id != null && entry.ID != null)
+                        {
+                            id = entry.ID;
+                        }
+                        if (name != null && id != null)
+                        {
+                            break;
+                        }
+                    }
+
+					participants.Add(new Participant(name, id, thisParticipantsEntries));
 				}
                 
             }
