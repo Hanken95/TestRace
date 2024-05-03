@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRace", "TestRace\TestRace.csproj", "{50969ADA-422A-4FC9-8B90-049A2DBDAD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tournament", "TestRace\Tournament.csproj", "{50969ADA-422A-4FC9-8B90-049A2DBDAD62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{254676AD-7EE0-449E-8CFB-A3F8BFBAC2C0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.UnitTests", "Tournament.UnitTests\Tournament.UnitTests.csproj", "{9B1D1A3F-AB92-4F42-B26F-65F62EB16AB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,10 @@ Global
 		{50969ADA-422A-4FC9-8B90-049A2DBDAD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50969ADA-422A-4FC9-8B90-049A2DBDAD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50969ADA-422A-4FC9-8B90-049A2DBDAD62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1D1A3F-AB92-4F42-B26F-65F62EB16AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1D1A3F-AB92-4F42-B26F-65F62EB16AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1D1A3F-AB92-4F42-B26F-65F62EB16AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1D1A3F-AB92-4F42-B26F-65F62EB16AB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
