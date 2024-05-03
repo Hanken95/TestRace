@@ -33,7 +33,7 @@ namespace Tournament.UnitTests
         }
 
         [Test]
-        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ValidEntryThatCanWin()
+        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ValidParticipantThatCanWin()
         {
             Participant participant = participants[0];
             foreach (ParticipantEntry entry in participant.ParticipantEntries)
@@ -51,7 +51,7 @@ namespace Tournament.UnitTests
         }
 
         [Test]
-        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ValidEntryThatCannotWin()
+        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ValidParticipantThatCannotWin()
         {
             Participant participant = participants[1];
 
@@ -70,9 +70,15 @@ namespace Tournament.UnitTests
         }
         
         [Test]
-        public void ParticipantPropertyTests_UsingparticipantEntryCreator_IncompleteEntryThatCannotWin()
+        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ParticipantWithoutID()
         {
             Participant participant = participants[2];
+
+            foreach (ParticipantEntry entry in participant.ParticipantEntries)
+            {
+                Assert.That(entry.Name == participant.Name);
+                Assert.That(entry.ID == participant.ID);
+            }
 
             Assert.That(participant.Name == "Felix Bromph");
             Assert.That(participant.ID == null);
@@ -82,6 +88,46 @@ namespace Tournament.UnitTests
             Assert.That(participant.CombinedRaceTime == new TimeSpan(0,10,0));
             
         }
+        [Test]
+        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ParticipantWithoutNameAndID()
+        {
+            Participant participant = participants[3];
 
+            foreach (ParticipantEntry entry in participant.ParticipantEntries)
+            {
+                Assert.That(entry.Name == participant.Name);
+                Assert.That(entry.ID == participant.ID);
+            }
+
+            Assert.That(participant.Name == null);
+            Assert.That(participant.ID == null);
+            Assert.That(participant.CanWinTournament == false);
+            Assert.That(participant.ParticipantEntries.Count == 2);
+            Assert.That(participant.EntryFaults.Count == 6);
+            Assert.That(participant.CombinedRaceTime == new TimeSpan(0,5,0));
+            
+        }
+        [Test]
+        public void ParticipantPropertyTests_UsingparticipantEntryCreator_ParticipantWithoutName()
+        {
+            Participant participant = participants[4];
+
+            foreach (ParticipantEntry entry in participant.ParticipantEntries)
+            {
+                Assert.That(entry.Name == participant.Name);
+                Assert.That(entry.ID == participant.ID);
+            }
+
+            Assert.That(participant.Name == null);
+            Assert.That(participant.ID == 300239);
+            Assert.That(participant.CanWinTournament == false);
+            Assert.That(participant.ParticipantEntries.Count == 2);
+            Assert.That(participant.EntryFaults.Count == 2);
+            Assert.That(participant.CombinedRaceTime == new TimeSpan(0,10,0));
+            
+        }
+
+        //[Test]
+        //public void 
     }
 }
