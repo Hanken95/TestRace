@@ -15,8 +15,7 @@ namespace Tournament
         }
         public static List<string> ReadFileInFilesFolder(string fileName = "race-results")
         {
-            var path = @$"..\..\..\Files\{fileName}.txt";
-            return File.ReadAllLines(path).ToList();
+            return File.ReadAllLines(@$"..\..\..\Files\{fileName}.txt").ToList();
         }
 
     }
