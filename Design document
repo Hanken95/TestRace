@@ -40,4 +40,8 @@ Expand on RaceTypeChecker? Where it can give suggestions if the value is close
 
 Implement a method to clear faults when the associated value has been corrected?
 
+Choose path of file?
+
+Return a Fault instead of a list when only one fault should be returned?
+
 Time Faults
